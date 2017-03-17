@@ -5,9 +5,8 @@ import model.Goddess;
 
 
 import java.sql.*;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 
 
 /**
@@ -39,10 +38,37 @@ public class GoddessDAO {
             e.printStackTrace();
         }
     }
-    public void delGoddess(){
-
+    public void delGoddess(Integer id){
+        Connection connection  = DBUtil.getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "DELETE FROM imooc_goddess WHERE id = "+id;
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    public void updateGoddess(){
+    public void updateGoddess(Goddess goddess){
+        final String UPDATE_USER = "admin";
+        final long UPDATE_DATE = new java.util.Date().getTime();
+        Connection connection = DBUtil.getConnection();
+        String sql = "UPDATE imooc_goddess SET name=?,sex=?,age=?,birthday=?," +
+                "email=?,mobile=?,update_user=?,update_date=? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1,goddess.getName());
+            statement.setInt(2,goddess.getSex());
+            statement.setInt(3,goddess.getAge());
+            statement.setDate(4,new Date(goddess.getBirthday().getTime()));
+            statement.setString(5,goddess.getEmail());
+            statement.setString(6,goddess.getMobile());
+            statement.setString(7,UPDATE_USER);
+            statement.setDate(8,new Date(UPDATE_DATE));
+            statement.setInt(9,goddess.getId());    //修改的条件，如果存在会修改整个表
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
     /*
@@ -81,8 +107,17 @@ public class GoddessDAO {
         }
         return list;
     }
-    public Goddess getGoddess(){
-        return null;
+    public ResultSet getGoddess(Integer id){
+        Connection connection = DBUtil.getConnection();
+        ResultSet set = null;
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "SELECT * FROM imooc_goddess WHERE id = "+id;
+            set = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return set;
     }
 
 }
