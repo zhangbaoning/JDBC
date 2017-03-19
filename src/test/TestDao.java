@@ -36,7 +36,7 @@ public class TestDao {
         Map map = new HashMap();
         map.put("name","name");
         map.put("rela","like");
-        map.put("value","西施");
+        map.put("value","赵飞燕");
         search.add(map);
         List<Goddess> list = dao.query(search);
         for (Goddess goddess:list){

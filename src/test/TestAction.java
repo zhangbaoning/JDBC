@@ -30,7 +30,7 @@ public class TestAction {
     }
     @Test
     public void testDel(){
-        new GoddessAction().del(7);
+        new GoddessAction().del(6);
     }
     @Test
     public void testUpdate(){
@@ -45,12 +45,19 @@ public class TestAction {
         Map map = new HashMap();
         map.put("name","name");
         map.put("rela","like");
-        map.put("value","西施");
+        map.put("value","赵飞燕");
         search.add(map);
         List<Goddess> list = new GoddessAction().query(search);
         for (Goddess goddess:list){
             System.out.println(goddess.toString());
         }
     }
+    @Test
+    public void get(){
+        GoddessAction action = new GoddessAction();
+        Goddess goddess = action.get(1);
+        System.out.println(goddess.toString());
+    }
+
 
 }
